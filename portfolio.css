@@ -3,26 +3,494 @@
    Base Styles
 ========================================= */
 
-/* Reset */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Smooth scrolling */
 html {
     scroll-behavior: smooth;
 }
 
-/* Body */
 body {
     min-height: 100vh;
 
-    background: #e38beb;
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            #faf8ff 0%,
+            #f0ebff 45%,
+            #e5ddfa 100%
+        );
 
-    font-family: Arial, Helvetica, sans-serif;
-    color: #2f2942;
+    color: #493d61;
+
+    font-family: "Nunito", sans-serif;
 
     overflow-x: hidden;
+}
+
+
+/* =========================================
+   LANDING
+========================================= */
+
+.landing {
+    height: 220vh;
+    position: relative;
+}
+
+.sky {
+    position: sticky;
+
+    top: 0;
+
+    width: 100%;
+    height: 100vh;
+
+    overflow: hidden;
+
+    isolation: isolate;
+}
+
+
+/* =========================================
+   SOFT CENTER GLOW
+========================================= */
+
+.sky-glow {
+    position: absolute;
+
+    width: 65vw;
+    height: 65vw;
+
+    max-width: 850px;
+    max-height: 850px;
+
+    left: 50%;
+    top: 48%;
+
+    transform: translate(-50%, -50%);
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.8) 0%,
+            rgba(255, 255, 255, 0.35) 35%,
+            rgba(255, 255, 255, 0) 72%
+        );
+
+    z-index: -1;
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   CLOUDS
+========================================= */
+
+.cloud {
+    --x: 0px;
+    --y: 0px;
+    --scale: 1;
+    --rotate: 0deg;
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 250px;
+    height: 90px;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.99),
+            rgba(247, 243, 255, 0.94)
+        );
+
+    box-shadow:
+        0 20px 45px rgba(119, 99, 163, 0.13),
+        inset 0 -8px 16px rgba(207, 191, 237, 0.16);
+
+    transform:
+        translate(
+            calc(-50% + var(--x)),
+            calc(-50% + var(--y))
+        )
+        scale(var(--scale))
+        rotate(var(--rotate));
+
+    will-change: transform;
+
+    transition:
+        transform 0.08s linear;
+
+    z-index: 3;
+}
+
+
+/* =========================================
+   CLOUD BUBBLES
+========================================= */
+
+.cloud::before,
+.cloud::after {
+    content: "";
+
+    position: absolute;
+
+    background: inherit;
+
+    border-radius: 50%;
+}
+
+.cloud::before {
+    width: 105px;
+    height: 105px;
+
+    left: 28px;
+    bottom: 20px;
+}
+
+.cloud::after {
+    width: 135px;
+    height: 135px;
+
+    right: 24px;
+    bottom: 15px;
+}
+
+
+/* =========================================
+   INITIAL CLOUD POSITIONS
+========================================= */
+
+.cloud-1 {
+    --x: -620px;
+    --y: -360px;
+    --scale: 1.15;
+    --rotate: -6deg;
+}
+
+.cloud-2 {
+    --x: -290px;
+    --y: -420px;
+    --scale: 0.9;
+    --rotate: 8deg;
+}
+
+.cloud-3 {
+    --x: 40px;
+    --y: -440px;
+    --scale: 1.2;
+    --rotate: -4deg;
+}
+
+.cloud-4 {
+    --x: 360px;
+    --y: -390px;
+    --scale: 1;
+    --rotate: 7deg;
+}
+
+.cloud-5 {
+    --x: 620px;
+    --y: -280px;
+    --scale: 1.12;
+    --rotate: -8deg;
+}
+
+.cloud-6 {
+    --x: -720px;
+    --y: -70px;
+    --scale: 1.05;
+    --rotate: 5deg;
+}
+
+.cloud-7 {
+    --x: -380px;
+    --y: -100px;
+    --scale: 1.2;
+    --rotate: -5deg;
+}
+
+.cloud-8 {
+    --x: 390px;
+    --y: -80px;
+    --scale: 1.15;
+    --rotate: 6deg;
+}
+
+.cloud-9 {
+    --x: 720px;
+    --y: -20px;
+    --scale: 0.95;
+    --rotate: -5deg;
+}
+
+.cloud-10 {
+    --x: -660px;
+    --y: 220px;
+    --scale: 1.2;
+    --rotate: -7deg;
+}
+
+.cloud-11 {
+    --x: -300px;
+    --y: 260px;
+    --scale: 1;
+    --rotate: 7deg;
+}
+
+.cloud-12 {
+    --x: 350px;
+    --y: 250px;
+    --scale: 1.18;
+    --rotate: -6deg;
+}
+
+.cloud-13 {
+    --x: 690px;
+    --y: 230px;
+    --scale: 1.05;
+    --rotate: 5deg;
+}
+
+.cloud-14 {
+    --x: -580px;
+    --y: 430px;
+    --scale: 1;
+    --rotate: 6deg;
+}
+
+.cloud-15 {
+    --x: 20px;
+    --y: 430px;
+    --scale: 1.2;
+    --rotate: -5deg;
+}
+
+.cloud-16 {
+    --x: 620px;
+    --y: 440px;
+    --scale: 0.95;
+    --rotate: 7deg;
+}
+
+
+/* =========================================
+   INTRODUCTION
+========================================= */
+
+.intro {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: min(760px, 88%);
+
+    text-align: center;
+
+    transform:
+        translate(-50%, -50%)
+        translateY(45px);
+
+    opacity: 0;
+
+    z-index: 2;
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   HELLO TEXT
+========================================= */
+
+.intro-small {
+    margin-bottom: 12px;
+
+     font-family: "M PLUS Rounded 1c", sans-serif;
+
+    font-size: 0.9rem;
+
+    font-weight: 800;
+    
+    letter-spacing: 0.28em;
+
+    color: #8d7ab7;
+}
+
+
+/* =========================================
+   MAIN NAME
+========================================= */
+
+.intro h1 {
+    margin-bottom: 25px;
+
+    font-family: "Bagel Fat One", cursive;
+
+    font-size: clamp(3.4rem, 8vw, 7rem);
+
+    line-height: 0.95;
+
+    font-weight: 400;
+
+    letter-spacing: 0;
+
+    color: #d482e5;
+
+    text-shadow:
+        0 5px 0 rgba(255, 255, 255, 0.55),
+        0 12px 25px rgba(190, 119, 215, 0.15);
+}
+
+
+/* =========================================
+   SUMMARY
+========================================= */
+
+.intro-summary {
+    max-width: 590px;
+
+    margin: 0 auto;
+
+    font-family: "M PLUS Rounded 1c", sans-serif;
+
+    font-size: clamp(1rem, 1.5vw, 1.18rem);
+
+    line-height: 1.8;
+
+    font-weight: 700;
+
+    color: #75688f;
+}
+
+
+/* =========================================
+   SCROLL INDICATOR
+========================================= */
+
+.scroll-indicator {
+    position: absolute;
+
+    left: 50%;
+    bottom: 35px;
+
+    transform: translateX(-50%);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 12px;
+
+    color: #9687b6;
+
+    font-family: "Nunito", sans-serif;
+
+    font-size: 0.73rem;
+
+    font-weight: 800;
+
+    letter-spacing: 0.15em;
+
+    text-transform: uppercase;
+
+    z-index: 5;
+}
+
+.scroll-line {
+    width: 2px;
+    height: 45px;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(150, 135, 182, 0.85),
+            rgba(150, 135, 182, 0)
+        );
+
+    animation: scrollPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+
+    0%,
+    100% {
+        transform: translateY(0);
+        opacity: 0.45;
+    }
+
+    50% {
+        transform: translateY(8px);
+        opacity: 1;
+    }
+}
+
+
+/* =========================================
+   FUTURE CONTENT
+========================================= */
+
+.content-placeholder {
+    min-height: 100vh;
+
+    background: #eee9ff;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .landing {
+        height: 200vh;
+    }
+
+    .cloud {
+        width: 190px;
+        height: 68px;
+    }
+
+    .cloud::before {
+        width: 80px;
+        height: 80px;
+    }
+
+    .cloud::after {
+        width: 100px;
+        height: 100px;
+    }
+
+    .intro {
+        width: 88%;
+    }
+
+    .intro h1 {
+        font-size: clamp(3rem, 13vw, 5rem);
+        line-height: 0.95;
+    }
+
+    .intro-summary {
+        font-size: 0.95rem;
+        line-height: 1.7;
+    }
+
+    .scroll-indicator {
+        bottom: 20px;
+    }
 }
