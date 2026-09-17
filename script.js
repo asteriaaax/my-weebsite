@@ -1,57 +1,92 @@
 // =========================================
-// SEAN CEDRICK ALVAREZ — PORTFOLIO
-// Cloud + Scroll Animation
+// SEAN CEDRICK ALVAREZ
+// Portfolio Interaction
 // =========================================
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    const clouds = document.querySelectorAll(".cloud");
-    const intro = document.querySelector(".intro");
-    const scrollIndicator = document.querySelector(".scroll-indicator");
-    const landing = document.querySelector(".landing");
+    const intro =
+        document.querySelector(".intro");
 
-    const cloudBreaks = document.querySelectorAll(".cloud-break");
+    const scrollIndicator =
+        document.querySelector(".scroll-indicator");
+
+    const landing =
+        document.querySelector(".landing");
+
+    const clouds =
+        document.querySelectorAll(".cloud");
+
+    const sections =
+        document.querySelectorAll(
+            ".portfolio-section"
+        );
+
+    const cloudBreaks =
+        document.querySelectorAll(
+            ".cloud-break"
+        );
 
 
-    if (!landing || !intro) {
+    // =========================================
+    // SAFETY
+    // =========================================
+
+    if (!intro || !landing) {
         return;
     }
 
 
     // =========================================
-    // LANDING CLOUD MOVEMENT
+    // LANDING CLOUD DESTINATIONS
     // =========================================
 
-    const landingCloudMovement = [
+    const cloudMovement = [
 
-        { x: -850, y: -470, rotate: -18, scale: 1.10 },
-        { x: -500, y: -520, rotate: 18, scale: 0.90 },
-        { x: 0,    y: -570, rotate: -12, scale: 1.10 },
-        { x: 500,  y: -500, rotate: 16, scale: 1.00 },
-        { x: 850,  y: -400, rotate: -16, scale: 1.00 },
+        { x: -850, y: -470, r: -18, s: 1.10 },
 
-        { x: -900, y: -100, rotate: 14, scale: 1.00 },
-        { x: -560, y: -140, rotate: -15, scale: 1.10 },
-        { x: 560,  y: -130, rotate: 14, scale: 1.05 },
-        { x: 900,  y: -80,  rotate: -15, scale: 0.95 },
+        { x: -500, y: -520, r: 18, s: 0.90 },
 
-        { x: -880, y: 210, rotate: -18, scale: 1.05 },
-        { x: -520, y: 270, rotate: 15, scale: 1.00 },
-        { x: 530,  y: 260, rotate: -14, scale: 1.10 },
-        { x: 900,  y: 200, rotate: 15, scale: 0.95 },
+        { x: 0, y: -570, r: -12, s: 1.10 },
 
-        { x: -760, y: 500, rotate: 14, scale: 1.00 },
-        { x: 0,    y: 510, rotate: -12, scale: 1.10 },
-        { x: 770,  y: 500, rotate: 16, scale: 0.95 }
+        { x: 500, y: -500, r: 16, s: 1.00 },
+
+        { x: 850, y: -400, r: -16, s: 1.00 },
+
+        { x: -900, y: -100, r: 14, s: 1.00 },
+
+        { x: -560, y: -140, r: -15, s: 1.10 },
+
+        { x: 560, y: -130, r: 14, s: 1.05 },
+
+        { x: 900, y: -80, r: -15, s: 0.95 },
+
+        { x: -880, y: 210, r: -18, s: 1.05 },
+
+        { x: -520, y: 270, r: 15, s: 1.00 },
+
+        { x: 530, y: 260, r: -14, s: 1.10 },
+
+        { x: 900, y: 200, r: 15, s: 0.95 },
+
+        { x: -760, y: 500, r: 14, s: 1.00 },
+
+        { x: 0, y: 510, r: -12, s: 1.10 },
+
+        { x: 770, y: 500, r: 16, s: 0.95 }
 
     ];
 
 
     // =========================================
-    // CLAMP
+    // HELPER
     // =========================================
 
-    function clamp(value, min, max) {
+    function clamp(
+        value,
+        min,
+        max
+    ) {
 
         return Math.min(
             Math.max(value, min),
@@ -61,115 +96,131 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // =========================================
-    // EASING
-    // =========================================
+    function smoothStep(value) {
 
-    function easeInOut(value) {
-
-        return value * value * (3 - 2 * value);
+        return (
+            value *
+            value *
+            (3 - 2 * value)
+        );
 
     }
 
 
     // =========================================
-    // LANDING UPDATE
+    // LANDING ANIMATION
     // =========================================
 
     function updateLanding() {
 
-        const scrollTop = window.scrollY;
+        const scrollY =
+            window.scrollY;
 
-        const landingHeight =
-            landing.offsetHeight;
+
+        /*
+            0 = untouched landing page
+
+            1 = clouds have completely
+                separated
+        */
 
         const progress =
             clamp(
-                scrollTop / landingHeight,
+                scrollY /
+                window.innerHeight,
+
                 0,
                 1
             );
 
 
         const eased =
-            easeInOut(progress);
+            smoothStep(progress);
 
 
         // =====================================
-        // LANDING CLOUDS
+        // CLOUDS MOVE OUTWARD
         // =====================================
 
-        clouds.forEach((cloud, index) => {
+        clouds.forEach(
+            (cloud, index) => {
 
-            const destination =
-                landingCloudMovement[index];
+                const movement =
+                    cloudMovement[index];
 
-            if (!destination) {
-                return;
+
+                if (!movement) {
+                    return;
+                }
+
+
+                /*
+                    Different clouds move at
+                    slightly different speeds.
+                */
+
+                const stagger =
+                    clamp(
+                        (
+                            eased -
+                            index * 0.012
+                        ) / 0.88,
+
+                        0,
+                        1
+                    );
+
+
+                cloud.style.setProperty(
+                    "--move-x",
+                    `${movement.x * stagger}px`
+                );
+
+
+                cloud.style.setProperty(
+                    "--move-y",
+                    `${movement.y * stagger}px`
+                );
+
+
+                cloud.style.setProperty(
+                    "--move-rotate",
+                    `${movement.r * stagger}deg`
+                );
+
+
+                cloud.style.setProperty(
+                    "--move-scale",
+                    1 +
+                    (
+                        movement.s - 1
+                    ) *
+                    stagger
+                );
+
             }
-
-
-            const stagger =
-                clamp(
-                    (eased - index * 0.015) / 0.85,
-                    0,
-                    1
-                );
-
-
-            const x =
-                destination.x * stagger;
-
-            const y =
-                destination.y * stagger;
-
-            const rotation =
-                destination.rotate * stagger;
-
-            const scale =
-                1 +
-                (
-                    (destination.scale - 1)
-                    * stagger
-                );
-
-
-            cloud.style.transform = `
-                translate(
-                    calc(
-                        -50%
-                        + var(--x)
-                        + ${x}px
-                    ),
-                    calc(
-                        -50%
-                        + var(--y)
-                        + ${y}px
-                    )
-                )
-                scale(
-                    calc(
-                        var(--scale) * ${scale}
-                    )
-                )
-                rotate(
-                    calc(
-                        var(--rotate)
-                        + ${rotation}deg
-                    )
-                )
-            `;
-
-        });
+        );
 
 
         // =====================================
-        // INTRO
+        // INTRO REVEAL
         // =====================================
+
+        /*
+            Intro remains completely invisible
+            at the top.
+
+            It begins appearing after a little
+            bit of scrolling.
+        */
 
         const introProgress =
             clamp(
-                (progress - 0.15) / 0.45,
+                (
+                    progress -
+                    0.12
+                ) / 0.42,
+
                 0,
                 1
             );
@@ -181,11 +232,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const introY =
             45 -
-            (introProgress * 45);
+            (
+                introProgress *
+                45
+            );
+
+
+        const introScale =
+            0.96 +
+            (
+                introProgress *
+                0.04
+            );
 
 
         intro.style.transform = `
             translateY(${introY}px)
+            scale(${introScale})
         `;
 
 
@@ -195,7 +258,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         scrollIndicator.style.opacity =
             clamp(
-                1 - progress * 4,
+                1 -
+                progress * 4,
+
                 0,
                 1
             );
@@ -204,192 +269,343 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =========================================
-    // TRANSITION CLOUD ANIMATION
+    // TRANSITION CLOUDS
     // =========================================
 
-    function updateTransitionClouds() {
+    function updateCloudBreaks() {
 
-        cloudBreaks.forEach((breakZone) => {
+        cloudBreaks.forEach(
+            (breakZone) => {
 
-            const rect =
-                breakZone.getBoundingClientRect();
-
-            const center =
-                rect.top +
-                (rect.height / 2);
+                const rect =
+                    breakZone.getBoundingClientRect();
 
 
-            /*
-                When the cloud zone is below the
-                viewport, progress = 0.
-
-                When it moves through the screen,
-                clouds begin flying away.
-
-                When it has passed,
-                progress = 1.
-            */
-
-            const startPoint =
-                window.innerHeight * 0.85;
-
-            const endPoint =
-                window.innerHeight * 0.10;
+                const center =
+                    rect.top +
+                    (
+                        rect.height / 2
+                    );
 
 
-            const progress =
-                clamp(
-                    (startPoint - center) /
-                    (startPoint - endPoint),
-                    0,
-                    1
-                );
+                /*
+                    Clouds start flying when
+                    the transition enters the
+                    viewport.
+                */
+
+                const start =
+                    window.innerHeight *
+                    0.90;
 
 
-            const eased =
-                easeInOut(progress);
+                const end =
+                    window.innerHeight *
+                    0.10;
 
 
-            const transitionClouds =
-                breakZone.querySelectorAll(
-                    ".float-cloud"
-                );
+                const progress =
+                    clamp(
+                        (
+                            start -
+                            center
+                        ) /
+                        (
+                            start -
+                            end
+                        ),
+
+                        0,
+                        1
+                    );
 
 
-            transitionClouds.forEach(
-                (cloud, index) => {
-
-                    let x = 0;
-                    let y = 0;
-                    let rotation = 0;
-                    let scale = 1;
+                const eased =
+                    smoothStep(
+                        progress
+                    );
 
 
-                    /*
-                        Each cloud gets a different
-                        escape direction.
+                const transitionClouds =
+                    breakZone.querySelectorAll(
+                        ".float-cloud"
+                    );
 
-                        This makes them feel like
-                        individual fluffy objects
-                        being blown away.
-                    */
 
-                    switch (index) {
+                transitionClouds.forEach(
+                    (
+                        cloud,
+                        index
+                    ) => {
 
-                        case 0:
-                            x = -700 * eased;
-                            y = -180 * eased;
-                            rotation = -35 * eased;
-                            scale = 1 - (0.25 * eased);
-                            break;
 
-                        case 1:
-                            x = -420 * eased;
-                            y = 260 * eased;
-                            rotation = 25 * eased;
-                            scale = 1 - (0.15 * eased);
-                            break;
+                        let x = 0;
+                        let y = 0;
+                        let rotation = 0;
+                        let scale = 1;
 
-                        case 2:
-                            x = -180 * eased;
-                            y = -300 * eased;
-                            rotation = -28 * eased;
-                            scale = 1 - (0.20 * eased);
-                            break;
 
-                        case 3:
-                            x = 260 * eased;
-                            y = 240 * eased;
-                            rotation = 35 * eased;
-                            scale = 1 - (0.15 * eased);
-                            break;
+                        switch (index) {
 
-                        case 4:
-                            x = 520 * eased;
-                            y = -230 * eased;
-                            rotation = -30 * eased;
-                            scale = 1 - (0.25 * eased);
-                            break;
+                            case 0:
 
-                        case 5:
-                            x = 800 * eased;
-                            y = 170 * eased;
-                            rotation = 35 * eased;
-                            scale = 1 - (0.20 * eased);
-                            break;
+                                x =
+                                    -750 *
+                                    eased;
 
-                        case 6:
-                            x = -850 * eased;
-                            y = 350 * eased;
-                            rotation = 30 * eased;
-                            scale = 1 - (0.25 * eased);
-                            break;
+                                y =
+                                    -180 *
+                                    eased;
 
-                        case 7:
-                            x = 900 * eased;
-                            y = -350 * eased;
-                            rotation = -35 * eased;
-                            scale = 1 - (0.20 * eased);
-                            break;
+                                rotation =
+                                    -35 *
+                                    eased;
+
+                                scale =
+                                    1 -
+                                    0.25 *
+                                    eased;
+
+                                break;
+
+
+                            case 1:
+
+                                x =
+                                    -450 *
+                                    eased;
+
+                                y =
+                                    270 *
+                                    eased;
+
+                                rotation =
+                                    27 *
+                                    eased;
+
+                                scale =
+                                    1 -
+                                    0.15 *
+                                    eased;
+
+                                break;
+
+
+                            case 2:
+
+                                x =
+                                    -200 *
+                                    eased;
+
+                                y =
+                                    -330 *
+                                    eased;
+
+                                rotation =
+                                    -28 *
+                                    eased;
+
+                                scale =
+                                    1 -
+                                    0.2 *
+                                    eased;
+
+                                break;
+
+
+                            case 3:
+
+                                x =
+                                    280 *
+                                    eased;
+
+                                y =
+                                    250 *
+                                    eased;
+
+                                rotation =
+                                    33 *
+                                    eased;
+
+                                scale =
+                                    1 -
+                                    0.15 *
+                                    eased;
+
+                                break;
+
+
+                            case 4:
+
+                                x =
+                                    560 *
+                                    eased;
+
+                                y =
+                                    -240 *
+                                    eased;
+
+                                rotation =
+                                    -30 *
+                                    eased;
+
+                                scale =
+                                    1 -
+                                    0.25 *
+                                    eased;
+
+                                break;
+
+
+                            case 5:
+
+                                x =
+                                    850 *
+                                    eased;
+
+                                y =
+                                    190 *
+                                    eased;
+
+                                rotation =
+                                    35 *
+                                    eased;
+
+                                scale =
+                                    1 -
+                                    0.2 *
+                                    eased;
+
+                                break;
+
+
+                            case 6:
+
+                                x =
+                                    -900 *
+                                    eased;
+
+                                y =
+                                    380 *
+                                    eased;
+
+                                rotation =
+                                    30 *
+                                    eased;
+
+                                scale =
+                                    1 -
+                                    0.25 *
+                                    eased;
+
+                                break;
+
+
+                            case 7:
+
+                                x =
+                                    950 *
+                                    eased;
+
+                                y =
+                                    -380 *
+                                    eased;
+
+                                rotation =
+                                    -35 *
+                                    eased;
+
+                                scale =
+                                    1 -
+                                    0.2 *
+                                    eased;
+
+                                break;
+
+                        }
+
+
+                        /*
+                            Read the original
+                            transform so we don't
+                            destroy its position.
+                        */
+
+                        const original =
+                            getComputedStyle(
+                                cloud
+                            ).transform;
+
+
+                        cloud.style.transform = `
+                            translate(
+                                ${x}px,
+                                ${y}px
+                            )
+                            rotate(
+                                ${rotation}deg
+                            )
+                            scale(
+                                ${scale}
+                            )
+                        `;
+
+
+                        cloud.style.opacity =
+                            clamp(
+                                1 -
+                                Math.max(
+                                    0,
+                                    eased -
+                                    0.3
+                                ) *
+                                1.4,
+
+                                0,
+                                1
+                            );
 
                     }
+                );
+
+            }
+        );
+
+    }
 
 
-                    cloud.style.transform = `
-                        translate(
-                            calc(
-                                -50%
-                                + var(--base-x)
-                                + ${x}px
-                            ),
-                            calc(
-                                -50%
-                                + var(--base-y)
-                                + ${y}px
-                            )
-                        )
-                        scale(
-                            calc(
-                                var(--base-scale)
-                                * ${scale}
-                            )
-                        )
-                        rotate(
-                            calc(
-                                var(--base-rotate)
-                                + ${rotation}deg
-                            )
-                        )
-                    `;
+    // =========================================
+    // SECTION HOVER
+    // =========================================
 
+    sections.forEach(
+        (section) => {
 
-                    /*
-                        Clouds slowly fade only after
-                        they've started flying away.
-                    */
+            section.addEventListener(
+                "mouseenter",
+                () => {
 
-                    const opacity =
-                        1 -
-                        Math.max(
-                            0,
-                            eased - 0.35
-                        ) *
-                        1.5;
-
-
-                    cloud.style.opacity =
-                        clamp(
-                            opacity,
-                            0,
-                            1
-                        );
+                    document.body.classList.add(
+                        "section-active"
+                    );
 
                 }
             );
 
-        });
 
-    }
+            section.addEventListener(
+                "mouseleave",
+                () => {
+
+                    document.body.classList.remove(
+                        "section-active"
+                    );
+
+                }
+            );
+
+        }
+    );
 
 
     // =========================================
@@ -400,7 +616,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         updateLanding();
 
-        updateTransitionClouds();
+        updateCloudBreaks();
 
     }
 
@@ -419,16 +635,18 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        window.requestAnimationFrame(() => {
-
-            updatePage();
-
-            ticking = false;
-
-        });
-
-
         ticking = true;
+
+
+        window.requestAnimationFrame(
+            () => {
+
+                updatePage();
+
+                ticking = false;
+
+            }
+        );
 
     }
 
@@ -448,11 +666,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.addEventListener(
         "resize",
-        updatePage
+        requestUpdate
     );
 
 
-    // Initial state
+    // =========================================
+    // INITIAL STATE
+    // =========================================
 
     updatePage();
 

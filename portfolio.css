@@ -1,9 +1,4 @@
 /* =========================================
-   SEAN CEDRICK ALVAREZ — PORTFOLIO
-========================================= */
-
-
-/* =========================================
    RESET
 ========================================= */
 
@@ -41,7 +36,6 @@ body {
 ========================================= */
 
 .cloud-background {
-
     position: fixed;
 
     inset: 0;
@@ -54,48 +48,60 @@ body {
     pointer-events: none;
 
     z-index: 0;
+
+    transition:
+        filter 0.5s ease,
+        opacity 0.5s ease;
+}
+
+body.section-active .cloud-background {
+    filter: blur(3px);
+    opacity: 0.45;
 }
 
 
 /* =========================================
-   GLOW
+   BACKGROUND GLOW
 ========================================= */
 
 .sky-glow {
-
     position: absolute;
 
-    width: 65vw;
-    height: 65vw;
+    width: 70vw;
+    height: 70vw;
 
-    max-width: 850px;
-    max-height: 850px;
+    max-width: 900px;
+    max-height: 900px;
 
     left: 50%;
-    top: 48%;
+    top: 50%;
 
     transform: translate(-50%, -50%);
 
     background:
         radial-gradient(
             circle,
-            rgba(255, 255, 255, 0.8) 0%,
-            rgba(255, 255, 255, 0.35) 35%,
-            rgba(255, 255, 255, 0) 72%
+            rgba(255,255,255,0.85) 0%,
+            rgba(255,255,255,0.35) 38%,
+            rgba(255,255,255,0) 72%
         );
 }
 
 
 /* =========================================
-   PERMANENT CLOUDS
+   CLOUD
 ========================================= */
 
 .cloud {
-
     --x: 0px;
     --y: 0px;
     --scale: 1;
     --rotate: 0deg;
+
+    --move-x: 0px;
+    --move-y: 0px;
+    --move-scale: 1;
+    --move-rotate: 0deg;
 
     position: absolute;
 
@@ -110,29 +116,36 @@ body {
     background:
         linear-gradient(
             to bottom,
-            rgba(255, 255, 255, 0.99),
-            rgba(247, 243, 255, 0.94)
+            #ffffff,
+            #f6f1ff
         );
 
     box-shadow:
-        0 20px 45px rgba(119, 99, 163, 0.13),
-        inset 0 -8px 16px rgba(207, 191, 237, 0.16);
+        0 20px 45px rgba(119,99,163,0.13),
+        inset 0 -8px 16px rgba(207,191,237,0.16);
 
     transform:
         translate(
-            calc(-50% + var(--x)),
-            calc(-50% + var(--y))
+            calc(-50% + var(--x) + var(--move-x)),
+            calc(-50% + var(--y) + var(--move-y))
         )
-        scale(var(--scale))
-        rotate(var(--rotate));
+        scale(
+            calc(var(--scale) * var(--move-scale))
+        )
+        rotate(
+            calc(var(--rotate) + var(--move-rotate))
+        );
+
+    will-change: transform;
 }
 
 
-/* Cloud bubbles */
+/* =========================================
+   CLOUD BUBBLES
+========================================= */
 
 .cloud::before,
 .cloud::after {
-
     content: "";
 
     position: absolute;
@@ -143,7 +156,6 @@ body {
 }
 
 .cloud::before {
-
     width: 105px;
     height: 105px;
 
@@ -152,7 +164,6 @@ body {
 }
 
 .cloud::after {
-
     width: 135px;
     height: 135px;
 
@@ -162,7 +173,7 @@ body {
 
 
 /* =========================================
-   CLOUD POSITIONS
+   LANDING CLOUD POSITIONS
 ========================================= */
 
 .cloud-1 {
@@ -283,9 +294,7 @@ body {
 ========================================= */
 
 .portfolio {
-
     position: relative;
-
     z-index: 1;
 }
 
@@ -295,10 +304,9 @@ body {
 ========================================= */
 
 .landing {
+    min-height: 100vh;
 
     position: relative;
-
-    min-height: 100vh;
 
     display: flex;
 
@@ -308,30 +316,35 @@ body {
 
 
 /* =========================================
-   INTRO
+   IMPORTANT:
+   INTRO STARTS HIDDEN
 ========================================= */
 
 .intro {
-
-    position: relative;
-
     width: min(760px, 88%);
 
     text-align: center;
 
-    transform: translateY(45px);
-
     opacity: 0;
+
+    transform:
+        translateY(45px)
+        scale(0.96);
+
+    pointer-events: none;
+
+    transition: none;
 
     z-index: 5;
 }
 
 
-/* Hello */
+/* =========================================
+   INTRO SMALL TEXT
+========================================= */
 
 .intro-small {
-
-    margin-bottom: 12px;
+    margin-bottom: 15px;
 
     font-size: 0.9rem;
 
@@ -343,15 +356,19 @@ body {
 }
 
 
-/* Name */
+/* =========================================
+   NAME
+========================================= */
 
 .intro h1 {
-
     margin-bottom: 25px;
 
-    font-family: "Bagel Fat One", cursive;
+    font-family:
+        "Bagel Fat One",
+        cursive;
 
-    font-size: clamp(3.4rem, 8vw, 7rem);
+    font-size:
+        clamp(3.4rem, 8vw, 7rem);
 
     line-height: 0.95;
 
@@ -360,20 +377,24 @@ body {
     color: #d482e5;
 
     text-shadow:
-        0 5px 0 rgba(255, 255, 255, 0.55),
-        0 12px 25px rgba(190, 119, 215, 0.15);
+        0 5px 0 rgba(255,255,255,0.6),
+
+        0 12px 25px
+        rgba(190,119,215,0.15);
 }
 
 
-/* Summary */
+/* =========================================
+   SUMMARY
+========================================= */
 
 .intro-summary {
-
     max-width: 590px;
 
     margin: 0 auto;
 
-    font-size: clamp(1rem, 1.5vw, 1.18rem);
+    font-size:
+        clamp(1rem, 1.5vw, 1.18rem);
 
     line-height: 1.8;
 
@@ -388,7 +409,6 @@ body {
 ========================================= */
 
 .scroll-indicator {
-
     position: absolute;
 
     left: 50%;
@@ -418,7 +438,6 @@ body {
 }
 
 .scroll-line {
-
     width: 2px;
     height: 45px;
 
@@ -427,19 +446,21 @@ body {
     background:
         linear-gradient(
             to bottom,
-            rgba(150, 135, 182, 0.85),
-            rgba(150, 135, 182, 0)
+            rgba(150,135,182,0.9),
+            rgba(150,135,182,0)
         );
 
-    animation: scrollPulse 1.8s ease-in-out infinite;
+    animation:
+        scrollPulse 1.8s
+        ease-in-out
+        infinite;
 }
 
 @keyframes scrollPulse {
-
     0%,
     100% {
         transform: translateY(0);
-        opacity: 0.45;
+        opacity: 0.4;
     }
 
     50% {
@@ -450,20 +471,19 @@ body {
 
 
 /* =========================================
-   CLOUD TRANSITION ZONES
+   CLOUD BREAKS
 ========================================= */
 
 .cloud-break {
-
     position: relative;
-
-    height: 360px;
 
     width: 100%;
 
+    height: 380px;
+
     overflow: hidden;
 
-    z-index: 2;
+    z-index: 3;
 
     pointer-events: none;
 }
@@ -474,52 +494,37 @@ body {
 ========================================= */
 
 .float-cloud {
-
-    --base-x: 0px;
-    --base-y: 0px;
-    --base-scale: 1;
-    --base-rotate: 0deg;
-
     position: absolute;
 
     left: 50%;
     top: 50%;
 
-    width: 230px;
-    height: 82px;
+    width: 235px;
+    height: 84px;
 
     border-radius: 999px;
 
     background:
         linear-gradient(
             to bottom,
-            rgba(255, 255, 255, 0.98),
-            rgba(247, 242, 255, 0.94)
+            rgba(255,255,255,0.98),
+            rgba(247,242,255,0.94)
         );
 
     box-shadow:
-        0 18px 40px rgba(119, 99, 163, 0.12),
-        inset 0 -7px 14px rgba(207, 191, 237, 0.18);
+        0 18px 40px
+        rgba(119,99,163,0.12),
 
-    transform:
-        translate(
-            calc(-50% + var(--base-x)),
-            calc(-50% + var(--base-y))
-        )
-        scale(var(--base-scale))
-        rotate(var(--base-rotate));
+        inset 0 -7px 14px
+        rgba(207,191,237,0.18);
 
-    will-change: transform, opacity;
-
-    opacity: 1;
+    will-change:
+        transform,
+        opacity;
 }
-
-
-/* Cloud bubbles */
 
 .float-cloud::before,
 .float-cloud::after {
-
     content: "";
 
     position: absolute;
@@ -530,18 +535,16 @@ body {
 }
 
 .float-cloud::before {
-
-    width: 95px;
-    height: 95px;
+    width: 96px;
+    height: 96px;
 
     left: 25px;
     bottom: 18px;
 }
 
 .float-cloud::after {
-
-    width: 120px;
-    height: 120px;
+    width: 122px;
+    height: 122px;
 
     right: 22px;
     bottom: 13px;
@@ -553,79 +556,162 @@ body {
 ========================================= */
 
 .float-cloud-1 {
-    --base-x: -600px;
-    --base-y: -80px;
-    --base-scale: 1.15;
-    --base-rotate: -8deg;
+    margin-left: -600px;
+    margin-top: -80px;
+    transform: rotate(-8deg) scale(1.15);
 }
 
 .float-cloud-2 {
-    --base-x: -360px;
-    --base-y: 80px;
-    --base-scale: 0.9;
-    --base-rotate: 7deg;
+    margin-left: -360px;
+    margin-top: 80px;
+    transform: rotate(7deg) scale(0.9);
 }
 
 .float-cloud-3 {
-    --base-x: -100px;
-    --base-y: -110px;
-    --base-scale: 1.25;
-    --base-rotate: -5deg;
+    margin-left: -100px;
+    margin-top: -110px;
+    transform: rotate(-5deg) scale(1.25);
 }
 
 .float-cloud-4 {
-    --base-x: 180px;
-    --base-y: 100px;
-    --base-scale: 1;
-    --base-rotate: 6deg;
+    margin-left: 180px;
+    margin-top: 100px;
+    transform: rotate(6deg) scale(1);
 }
 
 .float-cloud-5 {
-    --base-x: 430px;
-    --base-y: -70px;
-    --base-scale: 1.15;
-    --base-rotate: -7deg;
+    margin-left: 430px;
+    margin-top: -70px;
+    transform: rotate(-7deg) scale(1.15);
 }
 
 .float-cloud-6 {
-    --base-x: 690px;
-    --base-y: 90px;
-    --base-scale: 0.95;
-    --base-rotate: 8deg;
+    margin-left: 690px;
+    margin-top: 90px;
+    transform: rotate(8deg) scale(0.95);
 }
 
 .float-cloud-7 {
-    --base-x: -760px;
-    --base-y: 150px;
-    --base-scale: 0.9;
-    --base-rotate: 5deg;
+    margin-left: -760px;
+    margin-top: 150px;
+    transform: rotate(5deg) scale(0.9);
 }
 
 .float-cloud-8 {
-    --base-x: 780px;
-    --base-y: -150px;
-    --base-scale: 1;
-    --base-rotate: -6deg;
+    margin-left: 780px;
+    margin-top: -150px;
+    transform: rotate(-6deg) scale(1);
 }
 
 
 /* =========================================
-   PAGE SECTIONS
+   PORTFOLIO SECTIONS
 ========================================= */
 
-.page-section {
-
+.portfolio-section {
     position: relative;
 
-    min-height: 100vh;
+    width: min(950px, 90%);
 
-    padding: 120px 8%;
+    min-height: 260px;
+
+    margin: 0 auto;
+
+    z-index: 5;
+
+    transition:
+        transform 0.6s cubic-bezier(.16,1,.3,1),
+        opacity 0.5s ease,
+        filter 0.5s ease;
+}
+
+
+/* =========================================
+   SECTION TITLE
+========================================= */
+
+.section-title {
+    position: relative;
+
+    min-height: 110px;
+
+    padding: 20px 35px;
+
+    display: grid;
+
+    grid-template-columns:
+        70px 1fr 55px;
+
+    align-items: center;
+
+    border-radius: 999px;
+
+    background:
+        rgba(255,255,255,0.40);
+
+    border:
+        2px solid
+        rgba(255,255,255,0.60);
+
+    backdrop-filter: blur(8px);
+
+    box-shadow:
+        0 15px 40px
+        rgba(120,100,160,0.07);
+
+    transition:
+        transform 0.7s cubic-bezier(.16,1,.3,1),
+        border-radius 0.7s cubic-bezier(.16,1,.3,1),
+        background 0.5s ease,
+        box-shadow 0.6s ease;
+}
+
+
+.section-number {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #ac98c7;
+}
+
+
+.section-title h2 {
+    font-family:
+        "Bagel Fat One",
+        cursive;
+
+    font-size:
+        clamp(2.4rem, 6vw, 4.5rem);
+
+    line-height: 1;
+
+    font-weight: 400;
+
+    color: #c879dc;
+
+    transition:
+        transform 0.7s
+        cubic-bezier(.16,1,.3,1);
+}
+
+
+.section-arrow {
+    width: 40px;
+    height: 40px;
 
     display: flex;
 
     align-items: center;
-
     justify-content: center;
+
+    border-radius: 50%;
+
+    background: #f0e1f7;
+
+    color: #bd70d0;
+
+    transition:
+        transform 0.6s
+        cubic-bezier(.16,1,.3,1);
 }
 
 
@@ -633,71 +719,146 @@ body {
    SECTION CONTENT
 ========================================= */
 
-.section-content {
+.portfolio-section .section-content {
+    position: absolute;
 
-    width: min(850px, 90%);
+    left: 50%;
+    top: 96%;
 
-    padding: 60px;
+    width: min(720px, 90vw);
 
-    border-radius: 40px;
+    padding:
+        25px 55px 50px;
 
-    background:
-        rgba(255, 255, 255, 0.46);
+    transform:
+        translate(-50%, -20px)
+        scale(0.88);
 
-    border: 2px solid rgba(255, 255, 255, 0.55);
+    opacity: 0;
 
-    box-shadow:
-        0 20px 60px rgba(121, 104, 160, 0.08);
-
-    backdrop-filter: blur(8px);
+    pointer-events: none;
 
     text-align: center;
+
+    transition:
+        opacity 0.45s ease 0.08s,
+        transform 0.7s
+        cubic-bezier(.16,1,.3,1);
 }
 
 
-/* Label */
+/* =========================================
+   HOVER
+========================================= */
+
+.portfolio-section:hover {
+    z-index: 50;
+
+    transform:
+        scale(1.04);
+}
+
+
+.portfolio-section:hover
+.section-title {
+    transform:
+        translateY(-20px)
+        scale(1.08);
+
+    border-radius: 42px;
+
+    background:
+        rgba(255,255,255,0.94);
+
+    box-shadow:
+        0 35px 100px
+        rgba(110,88,145,0.18);
+}
+
+
+.portfolio-section:hover
+.section-title h2 {
+    transform:
+        scale(1.04)
+        translateX(5px);
+}
+
+
+.portfolio-section:hover
+.section-arrow {
+    transform:
+        rotate(45deg)
+        scale(1.12);
+}
+
+
+.portfolio-section:hover
+.section-content {
+    opacity: 1;
+
+    transform:
+        translate(-50%, 0)
+        scale(1);
+
+    pointer-events: auto;
+}
+
+
+/* =========================================
+   FADE OTHER SECTIONS
+========================================= */
+
+body:has(.portfolio-section:hover)
+.portfolio-section:not(:hover) {
+    opacity: 0.22;
+
+    transform:
+        scale(0.94);
+
+    filter:
+        blur(3px);
+}
+
+
+/* =========================================
+   SECTION CONTENT
+========================================= */
 
 .section-label {
+    margin-bottom: 12px;
 
-    margin-bottom: 15px;
-
-    font-size: 0.8rem;
+    font-size: 0.75rem;
 
     font-weight: 800;
 
     letter-spacing: 0.2em;
 
-    color: #a18cbe;
+    color: #a18cbb;
 }
 
 
-/* Heading */
+.section-content h3 {
+    margin-bottom: 18px;
 
-.section-content h2 {
+    font-family:
+        "Bagel Fat One",
+        cursive;
 
-    margin-bottom: 20px;
-
-    font-family: "Bagel Fat One", cursive;
-
-    font-size: clamp(2.5rem, 6vw, 5rem);
-
-    line-height: 1;
+    font-size:
+        clamp(2rem, 4vw, 3.2rem);
 
     font-weight: 400;
 
-    color: #c97cdc;
+    line-height: 1.05;
+
+    color: #c779db;
 }
 
 
-/* Paragraph */
+.section-content > p:not(.section-label) {
+    margin-bottom: 14px;
 
-.section-content p:not(.section-label) {
-
-    max-width: 650px;
-
-    margin: 0 auto;
-
-    font-size: 1.05rem;
+    font-size: 1rem;
 
     line-height: 1.8;
 
@@ -708,29 +869,112 @@ body {
 
 
 /* =========================================
+   TAGS
+========================================= */
+
+.mini-tags {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+    gap: 9px;
+
+    margin-top: 22px;
+}
+
+
+.mini-tags span {
+    padding:
+        8px 15px;
+
+    border-radius:
+        999px;
+
+    background:
+        #f0e3fa;
+
+    color:
+        #88739f;
+
+    font-size:
+        0.75rem;
+
+    font-weight:
+        800;
+}
+
+
+/* =========================================
+   CONTACT
+========================================= */
+
+.contact-links {
+    display: flex;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-top: 22px;
+}
+
+
+.contact-links a {
+    padding:
+        10px 20px;
+
+    border-radius:
+        999px;
+
+    background:
+        #ead9f5;
+
+    color:
+        #846596;
+
+    font-size:
+        0.8rem;
+
+    font-weight:
+        800;
+
+    text-decoration:
+        none;
+
+    transition:
+        transform 0.25s ease;
+}
+
+
+.contact-links a:hover {
+    transform:
+        translateY(-3px);
+}
+
+
+/* =========================================
    MOBILE
 ========================================= */
 
 @media (max-width: 768px) {
 
     .cloud {
-        width: 190px;
-        height: 68px;
+        width: 180px;
+        height: 65px;
     }
 
     .cloud::before {
-        width: 80px;
-        height: 80px;
+        width: 75px;
+        height: 75px;
     }
 
     .cloud::after {
-        width: 100px;
-        height: 100px;
-    }
-
-
-    .landing {
-        min-height: 100vh;
+        width: 95px;
+        height: 95px;
     }
 
 
@@ -740,7 +984,8 @@ body {
 
 
     .intro h1 {
-        font-size: clamp(3rem, 13vw, 5rem);
+        font-size:
+            clamp(3rem, 13vw, 5rem);
     }
 
 
@@ -751,41 +996,68 @@ body {
 
 
     .cloud-break {
-        height: 280px;
+        height: 300px;
     }
 
 
     .float-cloud {
-        width: 175px;
-        height: 63px;
+        width: 180px;
+        height: 65px;
     }
 
 
-    .float-cloud::before {
-        width: 70px;
-        height: 70px;
+    .portfolio-section {
+        width: 92%;
     }
 
 
-    .float-cloud::after {
-        width: 90px;
-        height: 90px;
+    .section-title {
+        min-height: 85px;
+
+        padding:
+            18px 22px;
+
+        grid-template-columns:
+            45px 1fr 35px;
+    }
+
+
+    .section-title h2 {
+        font-size:
+            clamp(
+                2rem,
+                9vw,
+                3.4rem
+            );
     }
 
 
     .section-content {
+        position: relative !important;
 
-        width: 92%;
+        left: auto !important;
+        top: auto !important;
 
-        padding: 40px 25px;
+        width: 100% !important;
 
-        border-radius: 30px;
+        padding:
+            25px 20px 35px !important;
+
+        transform:
+            scale(0.95) !important;
+
+        max-height: 0;
+
+        overflow: hidden;
     }
 
 
-    .page-section {
+    .portfolio-section:hover
+    .section-content {
+        transform:
+            scale(1) !important;
 
-        padding: 80px 5%;
+        max-height: 700px;
     }
 
 }
