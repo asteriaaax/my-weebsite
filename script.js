@@ -7,14 +7,20 @@
    LANDING PAGE
 ========================================================= */
 
-const enterButton = document.getElementById("enterButton");
-const landing = document.getElementById("landing");
-const mainContent = document.getElementById("main-content");
+const enterButton =
+    document.getElementById("enterButton");
+
+const landing =
+    document.getElementById("landing");
+
+const mainContent =
+    document.getElementById("main-content");
 
 
 enterButton.addEventListener("click", () => {
 
     landing.classList.add("exit");
+
 
     setTimeout(() => {
 
@@ -22,18 +28,24 @@ enterButton.addEventListener("click", () => {
 
         mainContent.style.display = "block";
 
+
         requestAnimationFrame(() => {
+
             mainContent.classList.add("visible");
+
         });
+
 
         window.scrollTo({
             top: 0,
             behavior: "instant"
         });
 
+
     }, 850);
 
 });
+
 
 
 /* =========================================================
@@ -41,7 +53,9 @@ enterButton.addEventListener("click", () => {
 ========================================================= */
 
 const revealElements =
-    document.querySelectorAll(".reveal-on-scroll");
+    document.querySelectorAll(
+        ".reveal-on-scroll"
+    );
 
 
 const revealObserver =
@@ -53,7 +67,9 @@ const revealObserver =
 
                 if (entry.isIntersecting) {
 
-                    entry.target.classList.add("visible");
+                    entry.target.classList.add(
+                        "visible"
+                    );
 
                 }
 
@@ -75,20 +91,69 @@ revealElements.forEach((element) => {
 });
 
 
+
 /* =========================================================
-   MODAL SYSTEM
+   STATIONARY PANEL CATS
+========================================================= */
+
+/*
+ * The cats are now decorative GIF images
+ * positioned by CSS.
+ *
+ * There is intentionally no mouse-following,
+ * jumping, or cursor interaction here.
+ *
+ * The HTML should contain:
+ *
+ * cat-sleeping.gif
+ * cat-yarn.gif
+ * cat-stretching.gif
+ * cat-loaf.gif
+ * cat-begging.gif
+ *
+ * inside their respective .panel-cat elements.
+ */
+
+const panelCats =
+    document.querySelectorAll(
+        ".panel-cat"
+    );
+
+
+panelCats.forEach((cat) => {
+
+    /*
+     * Make sure the cat remains decorative
+     * and does not interfere with clicks.
+     */
+
+    cat.style.pointerEvents = "none";
+
+});
+
+
+
+/* =========================================================
+   MODALS
 ========================================================= */
 
 const modalButtons =
-    document.querySelectorAll("[data-modal]");
+    document.querySelectorAll(
+        "[data-modal]"
+    );
 
 
 const modalOverlays =
-    document.querySelectorAll(".modal-overlay");
+    document.querySelectorAll(
+        ".modal-overlay"
+    );
 
 
 const closeButtons =
-    document.querySelectorAll(".close-modal");
+    document.querySelectorAll(
+        ".close-modal"
+    );
+
 
 
 /* =========================================================
@@ -97,25 +162,44 @@ const closeButtons =
 
 modalButtons.forEach((button) => {
 
-    button.addEventListener("click", () => {
+    button.addEventListener(
+        "click",
+        () => {
 
-        const modalId =
-            button.getAttribute("data-modal");
+            const modalId =
+                button.getAttribute(
+                    "data-modal"
+                );
 
-        const modal =
-            document.getElementById(modalId);
 
-        if (!modal) return;
+            const modal =
+                document.getElementById(
+                    modalId
+                );
 
-        modal.classList.remove("closing");
 
-        modal.classList.add("active");
+            if (!modal) return;
 
-        document.body.classList.add("modal-open");
 
-    });
+            modal.classList.remove(
+                "closing"
+            );
+
+
+            modal.classList.add(
+                "active"
+            );
+
+
+            document.body.classList.add(
+                "modal-open"
+            );
+
+        }
+    );
 
 });
+
 
 
 /* =========================================================
@@ -126,14 +210,27 @@ function closeModal(modal) {
 
     if (!modal) return;
 
-    modal.classList.add("closing");
+
+    modal.classList.add(
+        "closing"
+    );
+
 
     setTimeout(() => {
 
-        modal.classList.remove("active");
-        modal.classList.remove("closing");
+        modal.classList.remove(
+            "active"
+        );
 
-        document.body.classList.remove("modal-open");
+
+        modal.classList.remove(
+            "closing"
+        );
+
+
+        document.body.classList.remove(
+            "modal-open"
+        );
 
     }, 500);
 
@@ -142,16 +239,23 @@ function closeModal(modal) {
 
 closeButtons.forEach((button) => {
 
-    button.addEventListener("click", () => {
+    button.addEventListener(
+        "click",
+        () => {
 
-        const modal =
-            button.closest(".modal-overlay");
+            const modal =
+                button.closest(
+                    ".modal-overlay"
+                );
 
-        closeModal(modal);
 
-    });
+            closeModal(modal);
+
+        }
+    );
 
 });
+
 
 
 /* =========================================================
@@ -160,94 +264,131 @@ closeButtons.forEach((button) => {
 
 modalOverlays.forEach((overlay) => {
 
-    overlay.addEventListener("click", (event) => {
+    overlay.addEventListener(
+        "click",
+        (event) => {
 
-        if (event.target === overlay) {
+            if (
+                event.target === overlay
+            ) {
 
-            closeModal(overlay);
+                closeModal(overlay);
+
+            }
 
         }
-
-    });
+    );
 
 });
+
 
 
 /* =========================================================
    ESC KEY
 ========================================================= */
 
-document.addEventListener("keydown", (event) => {
+document.addEventListener(
+    "keydown",
+    (event) => {
 
-    if (event.key === "Escape") {
+        if (event.key === "Escape") {
 
-        const activeModal =
-            document.querySelector(
-                ".modal-overlay.active"
-            );
+            const activeModal =
+                document.querySelector(
+                    ".modal-overlay.active"
+                );
 
-        if (activeModal) {
 
-            closeModal(activeModal);
+            if (activeModal) {
+
+                closeModal(
+                    activeModal
+                );
+
+            }
 
         }
 
     }
+);
 
-});
 
 
 /* =========================================================
-   PREVENT MODAL CONTENT FROM CLOSING
+   PREVENT MODAL CONTENT CLICK
 ========================================================= */
 
-document.querySelectorAll(".modal-card").forEach((card) => {
+document
+    .querySelectorAll(".modal-card")
+    .forEach((card) => {
 
-    card.addEventListener("click", (event) => {
+        card.addEventListener(
+            "click",
+            (event) => {
 
-        event.stopPropagation();
+                event.stopPropagation();
+
+            }
+        );
 
     });
 
-});
 
 
 /* =========================================================
-   SUBTLE PARALLAX EFFECT
+   LANDING BUBBLE PARALLAX
 ========================================================= */
 
 const bubbles =
-    document.querySelectorAll(".floating-bubble");
+    document.querySelectorAll(
+        ".floating-bubble"
+    );
 
 
-window.addEventListener("mousemove", (event) => {
+window.addEventListener(
+    "mousemove",
+    (event) => {
 
-    const x =
-        (event.clientX / window.innerWidth - 0.5);
+        const x =
+            event.clientX /
+            window.innerWidth -
+            0.5;
 
-    const y =
-        (event.clientY / window.innerHeight - 0.5);
+
+        const y =
+            event.clientY /
+            window.innerHeight -
+            0.5;
 
 
-    bubbles.forEach((bubble, index) => {
+        bubbles.forEach(
+            (bubble, index) => {
 
-        const strength =
-            (index + 1) * 5;
+                const strength =
+                    (index + 1) * 5;
 
-        bubble.style.transform =
-            `translate(${x * strength}px, ${y * strength}px)`;
 
-    });
+                bubble.style.transform =
+                    `translate(
+                        ${x * strength}px,
+                        ${y * strength}px
+                    )`;
 
-});
+            }
+        );
+
+    }
+);
+
 
 
 /* =========================================================
-   DYNAMIC CURRENT YEAR
+   CURRENT YEAR
 ========================================================= */
 
 const footer =
     document.querySelector("footer");
+
 
 if (footer) {
 
@@ -256,5 +397,39 @@ if (footer) {
             "2026",
             new Date().getFullYear()
         );
+
+}
+
+/* =========================================================
+   BACK TO LANDING
+========================================================= */
+
+const backToLanding =
+    document.getElementById("backToLanding");
+
+if (backToLanding) {
+
+    backToLanding.addEventListener("click", () => {
+
+        mainContent.classList.remove("visible");
+
+        setTimeout(() => {
+
+            mainContent.style.display = "none";
+
+            landing.style.display = "flex";
+
+            requestAnimationFrame(() => {
+                landing.classList.remove("exit");
+            });
+
+            window.scrollTo({
+                top: 0,
+                behavior: "instant"
+            });
+
+        }, 500);
+
+    });
 
 }
